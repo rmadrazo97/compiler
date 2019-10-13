@@ -12,9 +12,22 @@ public class cli{
                 //System.out.println(stage);
 
                 if(stage.equals("scan")){
-                    System.out.println("This should run and compile Scanner...");
+
+                    System.out.println("This should run and compile scanner...");
+
+                    Scannerc lexer = new Scannerc();
+                    lexer.main(new String[0]);
+                    System.out.println(lexer.token_stream);
+
                 }else if(stage.equals("parser")){
                     System.out.println("This should run and compile parser...");
+
+                    Scannerc lexer = new Scannerc();
+                    lexer.main(new String[0]);
+                    System.out.println(lexer.token_stream);
+
+                    parser2 parser = new parser2();
+                    parser.main(new String[0]);
 
                 }else if(stage.equals("-help") || stage.equals("-h")){
                     System.out.println("This should open the help cli...");
@@ -25,9 +38,9 @@ public class cli{
             
             }else if(args[i].equals(null)){
                 // Se instancia el scanner, por ser el default
-                //Scannerc lexer = new Scannerc();
-                //lexer.main(new String[0]);
-                //System.out.println(lexer.token_stream);
+                Scannerc lexer = new Scannerc();
+                lexer.main(new String[0]);
+                System.out.println(lexer.token_stream);
                 System.out.println("test");
             }
 
