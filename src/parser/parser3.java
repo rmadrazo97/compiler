@@ -54,16 +54,16 @@ public class parser3 {
                     if(tokens.get(contador).value.equals("}")){
                         System.out.println("Parseado: }");
                     }else{
-                        System.out.println("Error");
+                        //System.out.println("Error");
                     }
                 }else{
-                    System.out.println("Error");
+                    //System.out.println("Error");
                 }
             }else{
-                System.out.println("Error");
+                //System.out.println("Error");
             }
         }else{
-            System.out.println("Error");
+            //System.out.println("Error");
         }
     }
 
@@ -735,7 +735,7 @@ public class parser3 {
         }else  if(string_literal(tokens)){
             return true;
         }else{
-            System.out.println("Error");        
+            //System.out.println("Error");        
             return false;
         }
     }
@@ -750,7 +750,7 @@ public class parser3 {
         } else if (cond_op(tokens)){
             return true;
         } else {
-            System.out.println("Error");        
+            //System.out.println("Error");        
             return false;
         }
     }
@@ -777,7 +777,7 @@ public class parser3 {
             System.out.println("Parseado: %");
             return true;
         }else {
-            System.out.println("Error");
+            //System.out.println("Error");
             return false;
         }
     }
@@ -801,7 +801,7 @@ public class parser3 {
             System.out.println("Parseado: >=");
             return true; 
         } else {
-            System.out.println("Error");
+            //System.out.println("Error");
             return false;
         }      
     }
@@ -816,7 +816,7 @@ public class parser3 {
             System.out.println("Parseado: !=");
             return true;
         } else {
-            System.out.println("Error");
+            //System.out.println("Error");
             return false;
         }
     }
@@ -831,7 +831,7 @@ public class parser3 {
             System.out.println("Parseado: ||");
             return true;
         } else {
-            System.out.println("Error");
+            //System.out.println("Error");
             return false;
         }
     }
@@ -844,7 +844,7 @@ public class parser3 {
         } else  if (bool_literal(tokens)){
             return true;
         } else {
-            System.out.println("Error");        
+            //System.out.println("Error");        
             return false;
         }
     }
