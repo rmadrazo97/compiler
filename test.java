@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 
-public class cli {
+public class test {
 
     private static void printLines(String name, InputStream ins) throws Exception {
         String line = null;
@@ -50,15 +50,6 @@ public class cli {
                 } else if (stage.equals("parser")) {
                     System.out.println("This should run and compile parser...");
 
-                    try {
-                        runProcess("javac Invoked.java");
-                        runProcess("java Invoked");
-                        runProcess("javac Main.java");
-                        runProcess("java Main");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
                     /*
                      * Scannerc lexer = new Scannerc(); lexer.main(new String[0]);
                      * System.out.println(lexer.token_stream);
@@ -78,13 +69,6 @@ public class cli {
                  * Scannerc lexer = new Scannerc(); lexer.main(new String[0]);
                  * System.out.println(lexer.token_stream);
                  */
-
-                try {
-                    runProcess("javac Invoked.java");
-                    runProcess("java Invoked");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 System.out.println("test");
             }
 

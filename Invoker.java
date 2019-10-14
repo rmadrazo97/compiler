@@ -9,8 +9,7 @@ public class Invoker {
     Class[] argTypes = new Class[1];
     argTypes[0] = String[].class;
     try {
-      Method mainMethod = Class.forName
-      (args[0]).getDeclaredMethod("main",argTypes);
+      Method mainMethod = Class.forName(args[0]).getDeclaredMethod("main",argTypes);
       Object[] argListForInvokedMain = new Object[1];
       argListForInvokedMain[0] = new String[0];
       // Place whatever args you
