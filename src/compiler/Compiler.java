@@ -2,14 +2,14 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
-//package compiler;
+*/
+package compiler;
 
-//import compiler.scanner.Scannerc;
+import compiler.scanner.Scannerc;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-//import parser.Parser;
-//import parser.parser2;
+import parser.Parser;
+import parser.parser2;
 
 /**
  *
