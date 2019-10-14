@@ -23,13 +23,16 @@ public class parser3 {
         
         ArrayList<token> token_stream = Scannerc.token_stream;
         
-        program(token_stream);
+        parse_pointer puntero_padre = new parse_pointer(null, "production", "program");
+        program(token_stream, puntero_padre);
     }
     
-    public static void program(ArrayList<token> tokens){
+    public static void program(ArrayList<token> tokens, parse_pointer padre){
         //class
         if(tokens.get(contador).value.equals("class")){
             System.out.println("Parseado: class");
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador += 1;
             
             if(tokens.get(contador).value.equals("Program")){
