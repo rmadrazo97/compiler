@@ -84,23 +84,55 @@ public class parser3 {
         }
     }
 
-    public static boolean field_decl(ArrayList<token> tokens){
+    public static boolean field_decl(ArrayList<token> tokens, parse_pointer padre){
+       
         int inicio = contador;
         
-        if(type(tokens)){
+        // padre viene de la llamada anerior -> padre
+
+        if(type(tokens, padre)){
+            
+            // hijo_1 -> type.
+            parse_pointer hijo_1 = new parse_pointer(padre, "production", "type");
+            padre.children.add(hijo_1);
+
+            
             if(field_decl_alt(tokens)){
+                
+                // hijo_2 -> field_decl_alt
+                parse_pointer hijo_2 = new parse_pointer(padre, "production", "field_decl_alt");
+                padre.children.add(hijo_2);
+
                 boolean continuar = true;
                 while(continuar){
                     if(tokens.get(contador).value.equals(",")){
+                        // hijo_3
+                        parse_pointer hijo_3 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+                        padre.children.add(hijo_3);
+
                         System.out.println("Parseado: ,");
+
                         contador += 1;
+                       
+                        //hijo_4
+                        parse_pointer hijo_4 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+                        
                         continuar = field_decl_alt(tokens);
+                        // if continuar add as children
+                        if (continuar){
+                            padre.children.add(hijo_4); 
+                        }
+                        
                     }else{
                         break;
                     }
                 }
                 
                 if(tokens.get(contador).value.equals(";")){
+                    
+                    parse_pointer hijo_5 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+                    padre.children.add(hijo_5); 
+
                     System.out.println("Parseado: ;");
                     contador += 1;
                     return true;
@@ -156,23 +188,52 @@ public class parser3 {
         }
     }
 
-    public static boolean method_decl(ArrayList<token> tokens){
+    public static boolean method_decl(ArrayList<token> tokens, parse_pointer padre){
         int inicio = contador; 
         
         if(type(tokens) || tokens.get(contador).value.equals("void")){
+
+            if (tokens.get(contador).value.equals("void")){
+               
+                parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+                padre.children.add(hijo_1); 
+
+            } else {
+                parse_pointer hijo_1 = new parse_pointer(padre, "production", "type");
+                padre.children.add(hijo_1); 
+
+
+            }
+
             if(tokens.get(contador).value.equals("void")){
+                
+                parse_pointer hijo_2 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+                padre.children.add(hijo_2); 
+
                 contador += 1;
             }
             if(id(tokens)){
                 if(tokens.get(contador).value.equals("(")){
+                    
+                    parse_pointer hijo_3 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+                    padre.children.add(hijo_3); 
+                    
                     System.out.println("Parseado: (");
                     contador += 1;
                     
                     if(tokens.get(contador).value.equals(")")){
+                        
+                        parse_pointer hijo_4 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+                        padre.children.add(hijo_4);
+                        
                         System.out.println("Parseado: )");
                         contador += 1;
                         
                         if(block(tokens)){
+                            
+                            parse_pointer hijo_5 = new parse_pointer(padre, "production", "block" );
+                            padre.children.add(hijo_5);
+                            
                             return true; 
                         }else{
                             contador = inicio; 
@@ -181,11 +242,23 @@ public class parser3 {
                     }else{
                         
                         if(method_decl_alt(tokens)){
+                            
+                            parse_pointer hijo_6 = new parse_pointer(padre, "production", "method_decl_alt");
+                            padre.children.add(hijo_6);
+                            
                             if(tokens.get(contador).value.equals(")")){
+                                
+                                parse_pointer hijo_7 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+                                padre.children.add(hijo_7);
+                                
                                 System.out.println("Parseado: )");
                                 contador += 1;
                     
                                 if(block(tokens)){
+
+                                    parse_pointer hijo_8 = new parse_pointer(padre, "production", "block" );
+                                    padre.children.add(hijo_8);
+
                                     return true;
                                 }else{
                                     contador = inicio; 
@@ -259,23 +332,43 @@ public class parser3 {
         }
     }
 
-    public static boolean block(ArrayList<token> tokens){
+    public static boolean block(ArrayList<token> tokens, parse_pointer padre){
         
         if(tokens.get(contador).value.equals("{")){
+            
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
+
             System.out.println("Parseado: {");
             contador += 1;
             
             boolean continuar = true;
             while(continuar){
+                
+                parse_pointer hijo_2 = new parse_pointer(padre, "production", "var_decl");
                 continuar = var_decl(tokens);
+
+                if (continuar){
+                    padre.children.add(hijo_2);
+                } 
             }
             
             boolean continuar2 = true;
             while(continuar2){
+                
+                parse_pointer hijo_3 = new parse_pointer(padre, "production", "var_decl");
+
                 continuar2 = statement(tokens);
+                if (continuar){
+                    padre.children.add(hijo_3);
+                }
             }
             
             if(tokens.get(contador).value.equals("}")){
+                
+                parse_pointer hijo_4 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+                padre.children.add(hijo_4);
+
                 System.out.println("Parseado: }");
                 contador += 1;
                 
@@ -336,11 +429,15 @@ public class parser3 {
         }
     }
 
-    public static boolean type(ArrayList<token> tokens){
+    public static boolean type(ArrayList<token> tokens, parse_pointer padre){
         
         String value = tokens.get(contador).value;
         
         if(value.equals("int") || value.equals("boolean")){
+            
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
+
             System.out.println("Parseado: " + value);
             contador += 1;
             return true;
@@ -586,10 +683,14 @@ public class parser3 {
         
     }
 
-    public static boolean assign_op(ArrayList<token> tokens){
+    public static boolean assign_op(ArrayList<token> tokens, parse_pointer padre){
         String value = tokens.get(contador).value;
         
         if(value.equals("=") || value.equals("+=") || value.equals("-=")){
+
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
+
             System.out.println("Parseado: " + value);
             contador += 1;
             return true;
@@ -736,8 +837,13 @@ public class parser3 {
         }
     }
 
-    public static boolean method_name(ArrayList<token> tokens){
-        return id(tokens);
+    public static boolean method_name(ArrayList<token> tokens, parse_pointer padre){
+        
+        if (id(tokens)){
+            parse_pointer hijo_1 = new parse_pointer(padre, "production", "id");
+            padre.children.add(hijo_1);
+        }
+        
     }
     
     public static boolean location(ArrayList<token> tokens, parse_pointer padre){
@@ -778,14 +884,24 @@ public class parser3 {
         }
     }
 
-    public static boolean expr(ArrayList<token> tokens){
+    public static boolean expr(ArrayList<token> tokens, parse_pointer padre){
         int inicio = contador; 
         if(tokens.get(contador).value.equals("-")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             System.out.println("Parseado -");
             contador += 1; 
             
             if(expr(tokens)){
+                
+                parse_pointer hijo_2 = new parse_pointer(padre, "production", "expr");
+                padre.children.add(hijo_2);
+                
                 if(expr_alt(tokens)){
+                    
+                    parse_pointer hijo_3 = new parse_pointer(padre, "production", "expr_alt");
+                    padre.children.add(hijo_3);
+                 
                     return true;
                 }else{
                     contador = inicio; 
@@ -796,10 +912,14 @@ public class parser3 {
                 return false;
             }
         }else if(tokens.get(contador).value.equals("!")){
+            parse_pointer hijo_4 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_4);
             System.out.println("Parseado !");
             contador += 1;
             
             if(expr(tokens)){
+                parse_pointer hijo_5 = new parse_pointer(padre, "production", "expr");
+                padre.children.add(hijo_5);
                 if(expr_alt(tokens)){
                     return true;
                 }else{
@@ -811,12 +931,27 @@ public class parser3 {
                 return false; 
             }
         }else if(tokens.get(contador).value.equals("(")){
+            parse_pointer hijo_6 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_6);
+            
             if(expr(tokens)){
+                
+                parse_pointer hijo_7 = new parse_pointer(padre, "production", "expr");
+                padre.children.add(hijo_7);
+
                 if(tokens.get(contador).value.equals(")")){
+
+                    parse_pointer hijo_8 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+                    padre.children.add(hijo_8);
+
                     System.out.println("Parseado )");
                     contador += 1; 
                     
                     if(expr_alt(tokens)){
+                        
+                        parse_pointer hijo_9 = new parse_pointer(padre, "production", "expr_alt");
+                        padre.children.add(hijo_9);
+
                         return true; 
                     }else{
                         contador = inicio; 
@@ -831,21 +966,45 @@ public class parser3 {
                 return false; 
             }
         }else if(location(tokens)){
+            
+            parse_pointer hijo_10 = new parse_pointer(padre, "production", "location");
+            padre.children.add(hijo_10);
+
             if(expr_alt(tokens)){
+                
+                parse_pointer hijo_11 = new parse_pointer(padre, "production", "expr_alt");
+                padre.children.add(hijo_11);
+
                 return true; 
             }else{
                 contador = inicio;
                 return false;
             }
         }else if(method_call(tokens)){
+            
+            parse_pointer hijo_12 = new parse_pointer(padre, "production", "method_call");
+            padre.children.add(hijo_12);
+            
             if(expr_alt(tokens)){
+                
+                parse_pointer hijo_13 = new parse_pointer(padre, "production", "expr_alt");
+                padre.children.add(hijo_13);
+
                 return true; 
             }else{
                 contador = inicio;
                 return false;
             }
         }else if(literal(tokens)){
+
+            parse_pointer hijo_14 = new parse_pointer(padre, "production", "literal");
+            padre.children.add(hijo_14);
+
             if(expr_alt(tokens)){
+
+                parse_pointer hijo_15 = new parse_pointer(padre, "production", "expr_alt");
+                padre.children.add(hijo_15);
+                
                 return true; 
             }else{
                 contador = inicio;
@@ -884,10 +1043,15 @@ public class parser3 {
         }
     }
 
-    public static boolean callout_arg(ArrayList<token> tokens){
+    public static boolean callout_arg(ArrayList<token> tokens, parse_pointer padre){
+
         if(expr(tokens)){
+            parse_pointer hijo_1 = new parse_pointer(padre, "production", "expr");
+            padre.children.add(hijo_1);
             return true;
         }else  if(string_literal(tokens)){
+            parse_pointer hijo_1 = new parse_pointer(padre, "production", "string_literal");
+            padre.children.add(hijo_1);
             return true;
         }else{
             //System.out.println("Error");        
@@ -895,14 +1059,22 @@ public class parser3 {
         }
     }
 
-    public static boolean bin_op(ArrayList<token> tokens){
+    public static boolean bin_op(ArrayList<token> tokens, parse_pointer padre){
         if (arith_op(tokens)){
+            parse_pointer hijo_1 = new parse_pointer(padre, "production", "arith_op");
+            padre.children.add(hijo_1);
             return true;
         } else  if (rel_op(tokens)){
+            parse_pointer hijo_1 = new parse_pointer(padre, "production", "rel_op");
+            padre.children.add(hijo_1);
             return true;
         } else if (eq_op(tokens)){
+            parse_pointer hijo_1 = new parse_pointer(padre, "production", "eq_op");
+            padre.children.add(hijo_1);
             return true;
         } else if (cond_op(tokens)){
+            parse_pointer hijo_1 = new parse_pointer(padre, "production", "cond_op");
+            padre.children.add(hijo_1);
             return true;
         } else {
             //System.out.println("Error");        
@@ -910,24 +1082,34 @@ public class parser3 {
         }
     }
 
-    public static boolean arith_op(ArrayList<token> tokens){
+    public static boolean arith_op(ArrayList<token> tokens, parse_pointer padre){
         if(tokens.get(contador).value.equals("+")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador +=1;
             System.out.println("Parseado: +");
             return true;
         }else if (tokens.get(contador).value.equals("-")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador +=1;
             System.out.println("Parseado: -");
             return true; 
         }else if (tokens.get(contador).value.equals("*")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador +=1;
             System.out.println("Parseado: *");
             return true;
         }else if (tokens.get(contador).value.equals("/")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador +=1;
             System.out.println("Parseado: /");
             return true;
         }else if (tokens.get(contador).value.equals("%")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador +=1;
             System.out.println("Parseado: %");
             return true;
@@ -937,21 +1119,29 @@ public class parser3 {
         }
     }
 
-    public static boolean rel_op(ArrayList<token> tokens){
+    public static boolean rel_op(ArrayList<token> tokens, parse_pointer padre){
 
         if(tokens.get(contador).value.equals("<")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador +=1;
             System.out.println("Parseado: <");
             return true;
         } else if (tokens.get(contador).value.equals(">")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador +=1;
             System.out.println("Parseado: >");
             return true; 
         }else if (tokens.get(contador).value.equals("<=")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador +=1;
             System.out.println("Parseado: <=");
             return true; 
         } else if (tokens.get(contador).value.equals(">=")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador +=1;
             System.out.println("Parseado: >=");
             return true; 
@@ -961,12 +1151,16 @@ public class parser3 {
         }      
     }
 
-    public static boolean eq_op(ArrayList<token> tokens){
+    public static boolean eq_op(ArrayList<token> tokens, parse_pointer padre){
         if(tokens.get(contador).value.equals("==")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador +=1;
             System.out.println("Parseado: ==");
             return true;
         } else if (tokens.get(contador).value.equals("!=")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador +=1;
             System.out.println("Parseado: !=");
             return true;
@@ -976,12 +1170,14 @@ public class parser3 {
         }
     }
 
-    public static boolean cond_op(ArrayList<token> tokens){
+    public static boolean cond_op(ArrayList<token> tokens, parse_pointer padre){
         if(tokens.get(contador).value.equals("&&")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
             contador +=1;
             System.out.println("Parseado: &&");
             return true;
         } else if (tokens.get(contador).value.equals("||")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
             contador +=1;
             System.out.println("Parseado: ||");
             return true;
@@ -991,12 +1187,18 @@ public class parser3 {
         }
     }
 
-    public static boolean literal(ArrayList<token> tokens){
-        if (int_literal(tokens)){      
+    public static boolean literal(ArrayList<token> tokens, parse_pointer padre){
+        if (int_literal(tokens)){
+            parse_pointer hijo_1 = new parse_pointer(padre, "production", "int_literal");
+            padre.children.add(hijo_1);      
             return true;
         } else  if (char_literal(tokens)){
+            parse_pointer hijo_1 = new parse_pointer(padre, "production", "char_literal");
+            padre.children.add(hijo_1); 
             return true;
         } else  if (bool_literal(tokens)){
+            parse_pointer hijo_1 = new parse_pointer(padre, "production", "bool_literal");
+            padre.children.add(hijo_1); 
             return true;
         } else {
             //System.out.println("Error");        
@@ -1004,8 +1206,12 @@ public class parser3 {
         }
     }
 
-    public static boolean id(ArrayList<token> tokens){
+    public static boolean id(ArrayList<token> tokens, parse_pointer padre){
         if (tokens.get(contador).type.equals("Identifier")){
+            
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
+
             System.out.println("Parseado type: <Identifier>");  
             contador += 1;      
             return true;
@@ -1014,8 +1220,12 @@ public class parser3 {
         }
     }
 
-    public static boolean char_literal(ArrayList<token> tokens){
+    public static boolean char_literal(ArrayList<token> tokens, parse_pointer padre){
         if(tokens.get(contador).type.equals("Char_Literal")){
+            
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
+
             System.out.println("Parseado " + tokens.get(contador).value);
             contador += 1;
             return true;
@@ -1024,8 +1234,12 @@ public class parser3 {
         }
     }
 
-    public static boolean int_literal(ArrayList<token> tokens){
+    public static boolean int_literal(ArrayList<token> tokens, parse_pointer padre){
         if (tokens.get(contador).type.equals("DECIMAL")){
+            
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
+            
             System.out.println("Parseado type: <int>");  
             contador += 1;      
             return true;
@@ -1034,8 +1248,12 @@ public class parser3 {
         }
     }
 
-    public static boolean hex_literal(ArrayList<token> tokens){
+    public static boolean hex_literal(ArrayList<token> tokens, parse_pointer padre){
         if (tokens.get(contador).type.equals("HEXADECIMAL")){
+            
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
+
             System.out.println("Parseado type: <hex>");  
             contador += 1;      
             return true;
@@ -1045,8 +1263,10 @@ public class parser3 {
 
 }
 
-    public static boolean string_literal(ArrayList<token> tokens){
+    public static boolean string_literal(ArrayList<token> tokens, parse_pointer padre){
         if (tokens.get(contador).type.equals("String_Literal")){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             System.out.println("Parseado type: <String_Literal>");  
             contador += 1;      
             return true;
@@ -1055,8 +1275,10 @@ public class parser3 {
         }
 }
 
-    public static boolean bool_literal(ArrayList<token> tokens){
+    public static boolean bool_literal(ArrayList<token> tokens, parse_pointer padre){
         if (tokens.get(contador).value.equals("true") || tokens.get(contador).value.equals("false") ){
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             System.out.println("Parseado type: <bool>");  
             contador += 1;      
             return true;
