@@ -17,14 +17,15 @@ import java.util.ArrayList;
  */
 public class parser3 {
     static int contador = 0;
+    static parse_pointer father;
    
     
     public static void main(String[] args) throws FileNotFoundException, IOException {
         
         ArrayList<token> token_stream = Scannerc.token_stream;
         
-        parse_pointer puntero_padre = new parse_pointer(null, "production", "program");
-        program(token_stream, puntero_padre);
+        father = new parse_pointer(null, "production", "program");
+        program(token_stream, father);
     }
     
     public static void program(ArrayList<token> tokens, parse_pointer padre){
@@ -212,6 +213,7 @@ public class parser3 {
                 contador += 1;
             }
             if(id(tokens, hijo_00)){
+                padre.children.add(hijo_00);
                 if(tokens.get(contador).value.equals("(")){
                     
                     parse_pointer hijo_3 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
@@ -842,6 +844,9 @@ public class parser3 {
         parse_pointer hijo_1 = new parse_pointer(padre, "production", "id");
         if (id(tokens, hijo_1)){
             padre.children.add(hijo_1);
+            return true;
+        }else{
+            return false;
         }
         
     }
@@ -902,7 +907,7 @@ public class parser3 {
                 
                 padre.children.add(hijo_2);
                 parse_pointer hijo_3 = new parse_pointer(padre, "production", "expr_alt");
-                if(expr_alt(tokens, hijo_3){
+                if(expr_alt(tokens, hijo_3)){
                     
                     padre.children.add(hijo_3);
                  
@@ -922,9 +927,11 @@ public class parser3 {
             contador += 1;
             
             parse_pointer hijo_5 = new parse_pointer(padre, "production", "expr");
-            if(expr(tokens, hijo_5){
+            if(expr(tokens, hijo_5)){
                 padre.children.add(hijo_5);
-                if(expr_alt(tokens)){
+                parse_pointer hijo_200 = new parse_pointer(padre, "production", "expr_alt");
+                if(expr_alt(tokens, hijo_200)){
+                    padre.children.add(hijo_200);
                     return true;
                 }else{
                     contador = inicio; 
@@ -1068,7 +1075,7 @@ public class parser3 {
         parse_pointer hijo_4 = new parse_pointer(padre, "production", "cond_op");
 
 
-        if (arith_op(tokens, hijo1)){
+        if (arith_op(tokens, hijo_1)){
             padre.children.add(hijo_1);
             return true;
         } else  if (rel_op(tokens, hijo_2)){
