@@ -17,8 +17,8 @@ public class cli {
 
     private static void runProcess(String command) throws Exception {
         Process pro = Runtime.getRuntime().exec(command);
-        printLines(command + " stdout:", pro.getInputStream());
-        printLines(command + " stderr:", pro.getErrorStream());
+        printLines(command + " Output:", pro.getInputStream());
+        printLines(command + " Error:", pro.getErrorStream());
         pro.waitFor();
         System.out.println(command + " exitValue() " + pro.exitValue());
     }
@@ -36,8 +36,9 @@ public class cli {
                     System.out.println("This should run and compile scanner...");
 
                     try {
-                        runProcess("javac Invoked.java");
-                        runProcess("java Invoked");
+                        runProcess("javac token.java");
+                        runProcess("javac Scannerc.java");
+                        runProcess("java Scannerc");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -45,13 +46,13 @@ public class cli {
                     /*
                      * Scannerc lexer = new Scannerc(); lexer.main(new String[0]);
                      * System.out.println(lexer.token_stream);
-                     */
+                    */
 
                 } else if (stage.equals("parser")) {
                     System.out.println("This should run and compile parser...");
 
                     try {
-                        runProcess("javac Invoked.java");
+                        runProcess("javac Scanner.java");
                         runProcess("java Invoked");
                         runProcess("javac Main.java");
                         runProcess("java Main");
@@ -64,10 +65,15 @@ public class cli {
                      * System.out.println(lexer.token_stream);
                      * 
                      * parser2 parser = new parser2(); parser.main(new String[0]);
-                     */
+                    */
 
                 } else if (stage.equals("-help") || stage.equals("-h")) {
                     System.out.println("This should open the help cli...");
+
+                    System.out.println("\nUsage: \n java Compiler <command> [options]\n");
+                    System.out.println("Commands: \n -target, -t \n");
+                    System.out.println("General Options: \n scan, scanner\n parser\n");
+                    System.out.println("Examples: \n java Compiler -target scan                  This compile and run Scanner.\n java Compiler -target parser                This compile and run Parser.\n");
                 } else {
                     System.out.println("Argument not valid.");
                 }
@@ -77,15 +83,15 @@ public class cli {
                 /*
                  * Scannerc lexer = new Scannerc(); lexer.main(new String[0]);
                  * System.out.println(lexer.token_stream);
-                 */
+                */
 
                 try {
-                    runProcess("javac Invoked.java");
-                    runProcess("java Invoked");
+                    runProcess("javac Scannerc.java");
+                    runProcess("java Scannerc");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                System.out.println("test");
+                System.out.println("Success!");
             }
 
         }
