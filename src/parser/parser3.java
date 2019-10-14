@@ -23,13 +23,16 @@ public class parser3 {
         
         ArrayList<token> token_stream = Scannerc.token_stream;
         
-        program(token_stream);
+        parse_pointer puntero_padre = new parse_pointer(null, "production", "program");
+        program(token_stream, puntero_padre);
     }
     
-    public static void program(ArrayList<token> tokens){
+    public static void program(ArrayList<token> tokens, parse_pointer padre){
         //class
         if(tokens.get(contador).value.equals("class")){
             System.out.println("Parseado: class");
+            parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
+            padre.children.add(hijo_1);
             contador += 1;
             
             if(tokens.get(contador).value.equals("Program")){
@@ -54,16 +57,16 @@ public class parser3 {
                     if(tokens.get(contador).value.equals("}")){
                         System.out.println("Parseado: }");
                     }else{
-                        System.out.println("Error");
+                        //System.out.println("Error");
                     }
                 }else{
-                    System.out.println("Error");
+                    //System.out.println("Error");
                 }
             }else{
-                System.out.println("Error");
+                //System.out.println("Error");
             }
         }else{
-            System.out.println("Error");
+            //System.out.println("Error");
         }
     }
 
@@ -735,7 +738,7 @@ public class parser3 {
         }else  if(string_literal(tokens)){
             return true;
         }else{
-            System.out.println("Error");        
+            //System.out.println("Error");        
             return false;
         }
     }
@@ -750,7 +753,7 @@ public class parser3 {
         } else if (cond_op(tokens)){
             return true;
         } else {
-            System.out.println("Error");        
+            //System.out.println("Error");        
             return false;
         }
     }
@@ -777,7 +780,7 @@ public class parser3 {
             System.out.println("Parseado: %");
             return true;
         }else {
-            System.out.println("Error");
+            //System.out.println("Error");
             return false;
         }
     }
@@ -801,7 +804,7 @@ public class parser3 {
             System.out.println("Parseado: >=");
             return true; 
         } else {
-            System.out.println("Error");
+            //System.out.println("Error");
             return false;
         }      
     }
@@ -816,7 +819,7 @@ public class parser3 {
             System.out.println("Parseado: !=");
             return true;
         } else {
-            System.out.println("Error");
+            //System.out.println("Error");
             return false;
         }
     }
@@ -831,7 +834,7 @@ public class parser3 {
             System.out.println("Parseado: ||");
             return true;
         } else {
-            System.out.println("Error");
+            //System.out.println("Error");
             return false;
         }
     }
@@ -844,7 +847,7 @@ public class parser3 {
         } else  if (bool_literal(tokens)){
             return true;
         } else {
-            System.out.println("Error");        
+            //System.out.println("Error");        
             return false;
         }
     }
