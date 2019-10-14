@@ -4,7 +4,7 @@ package parser;
  *
  * @author joseg
  */
-public class Semantic {
+public class semantic {
     
     public static void main(String[] args){
         recorrer(parser3.father);
@@ -21,7 +21,9 @@ public class Semantic {
     }
     
     public static void declaraciones(parse_pointer padre){
-        
+        for(int i = 0; i < padre.children.size(); i++){
+
+        }   
     }
     
 }
