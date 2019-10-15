@@ -27,13 +27,13 @@ public class Compiler {
 
         for (int i = 0; i < args.length; i++) {
 
-            if (args[i].equals("-target")) {
+            if (args[i].equals("-target") || args[i].equals("-t")) {
                 String stage = args[i + 1];
                 // System.out.println(stage);
 
-                if (stage.equals("scan")) {
+                if (stage.equals("scan") || stage.equals("scanner")) {
 
-                    System.out.println("This should run and compile scanner...");
+                    System.out.println("This run and compile scanner...");
 
                     try {
                         runProcess("javac token.java");
@@ -49,7 +49,7 @@ public class Compiler {
                     */
 
                 } else if (stage.equals("parser")) {
-                    System.out.println("This should run and compile parser...");
+                    System.out.println("This run and compile parser...");
 
                     try {
                         //runProcess("javac token.java");
@@ -69,7 +69,7 @@ public class Compiler {
                     */
 
                 } else if (stage.equals("-help") || stage.equals("-h")) {
-                    System.out.println("This should open the help cli...");
+                    System.out.println("This open the help cli...");
 
                     System.out.println("\nUsage: \n java Compiler <command> [options]\n");
                     System.out.println("Commands: \n -target, -t \n");
@@ -93,6 +93,14 @@ public class Compiler {
                     e.printStackTrace();
                 }
                 System.out.println("Success!");
+            } else if(args[i].equals("-help") || args[i].equals("-h")){
+                System.out.println("This open the help cli...");
+
+                System.out.println("\nUsage: \n java Compiler <command> [options]\n");
+                System.out.println("Commands: \n -target, -t \n");
+                System.out.println("General Options: \n scan, scanner\n parser\n");
+                System.out.println("Examples: \n java Compiler -target scan                  This compile and run Scanner.\n java Compiler -target parser                This compile and run Parser.\n");
+
             }
 
         }
