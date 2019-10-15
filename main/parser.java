@@ -363,7 +363,7 @@ public class parser {
                 Parse_pointer hijo_3 = new Parse_pointer(padre, "production", "var_decl");
 
                 continuar2 = statement(tokens, hijo_3);
-                if (continuar){
+                if (continuar2){
                     padre.children.add(hijo_3);
                 }
             }
