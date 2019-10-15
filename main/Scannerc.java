@@ -95,7 +95,7 @@ public class Scannerc {
         char[] alfabetos[] = { numbers, identifiers, string_literal };
 
         // LEER EL ARCHIVO, ESTO TIENEN QUE CAMBIARLO A SU PATH
-        File contenido = new File("Programa1.decaf");
+        File contenido = new File("Programa1.txt");
         Scanner scan = new Scanner(contenido);
 
         // A ESTOS ARREGLOS LES VOY A IR INSERTANDO LOS LEXEMES Y LOS MENSAJES DE ERROR
