@@ -7,6 +7,7 @@ class Program
         for i = 0 , i < 25
         {
             if ( true ) {
+                boolean hello ;
                 hello = 78 ;
                 break ;
             }

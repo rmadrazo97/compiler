@@ -36,6 +36,8 @@ public class Compiler {
                     System.out.println("This run and compile scanner...");
 
                     try {
+                        runProcess("javac Brain.java");
+                        runProcess("java Brain");
                         runProcess("javac token.java");
                         runProcess("javac Scannerc.java");
                         runProcess("java Scannerc");
@@ -54,6 +56,8 @@ public class Compiler {
                     try {
                         //runProcess("javac token.java");
                         //runProcess("javac Scannerc.java");
+                        runProcess("javac Brain.java");
+                        runProcess("java Brain");
                         runProcess("javac Parse_pointer.java");
                         runProcess("javac Parser.java");
                         runProcess("java Parser");
@@ -78,7 +82,8 @@ public class Compiler {
                 } else if (stage.equals("Semantic") || stage.equals("semantic")) {
 
                     try {
-                        
+                        runProcess("javac Brain.java");
+                        runProcess("java Brain");
                         runProcess("javac Semantic.java");
                         runProcess("java Semantic");
                     } catch (Exception e) {
@@ -98,6 +103,8 @@ public class Compiler {
                 */
 
                 try {
+                    runProcess("javac Brain.java");
+                    runProcess("java Brain");
                     runProcess("javac Scannerc.java");
                     runProcess("java Scannerc");
                 } catch (Exception e) {
