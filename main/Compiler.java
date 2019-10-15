@@ -55,8 +55,8 @@ public class Compiler {
                         //runProcess("javac token.java");
                         //runProcess("javac Scannerc.java");
                         runProcess("javac Parse_pointer.java");
-                        runProcess("javac parser.java");
-                        runProcess("java parser");
+                        runProcess("javac Parser.java");
+                        runProcess("java Parser");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -75,7 +75,18 @@ public class Compiler {
                     System.out.println("Commands: \n -target, -t \n");
                     System.out.println("General Options: \n scan, scanner\n parser\n");
                     System.out.println("Examples: \n java Compiler -target scan                  This compile and run Scanner.\n java Compiler -target parser                This compile and run Parser.\n");
-                } else {
+                } else if (stage.equals("Semantic") || stage.equals("semantic")) {
+
+                    try {
+                        
+                        runProcess("javac Semantic.java");
+                        runProcess("java Semantic");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                }else {
                     System.out.println("Argument not valid.");
                 }
 

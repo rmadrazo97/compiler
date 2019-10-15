@@ -12,12 +12,12 @@ import java.util.ArrayList;
  *
  * @author joseg
  */
-public class parser {
+public class Parser {
     static int contador = 0;
     static Parse_pointer father;
    
     
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) throws FileNotFoundException {
 
         Scannerc lexer = new Scannerc();
         lexer.main(new String[0]);
