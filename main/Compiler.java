@@ -79,12 +79,14 @@ public class Compiler {
                     System.out.println("Commands: \n -target, -t \n");
                     System.out.println("General Options: \n scan, scanner\n parser\n");
                     System.out.println("Examples: \n java Compiler -target scan                  This compile and run Scanner.\n java Compiler -target parser                This compile and run Parser.\n");
-                    
+
                 } else if (stage.equals("Semantic") || stage.equals("semantic")) {
 
                     try {
                         runProcess("javac Brain.java");
                         runProcess("java Brain");
+                        runProcess("javac Block.java");
+                        runProcess("javac Parse_pointer.java");
                         runProcess("javac Semantic.java");
                         runProcess("java Semantic");
                     } catch (Exception e) {
