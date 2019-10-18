@@ -3,7 +3,6 @@
 ## Universidad Francisco Marroquín
 ### Compiladores
 
-# --------------------------------------------------
 ## Steps: 
 ### 1) compile Compiler.java file: javac Compiler.java
 ### 2) java Compiler -target -options-
