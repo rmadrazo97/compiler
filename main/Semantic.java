@@ -14,7 +14,7 @@ import java.io.FileWriter;
  */
 public class Semantic {
     public static int scope = 0;
-    public static ArrayList<ArrayList<String>> toWrite = new ArrayList<>();
+    public static ArrayList<String> toWrite = new ArrayList<String>();
     
     public static void main(String[] args){
 
@@ -49,6 +49,9 @@ public class Semantic {
         System.out.println("\n\n");
         recorrer_scope(scope0);
 
+        for (int i = 0; i < toWrite.size(); i++) {
+            System.out.println(toWrite.get(i));
+        }
 
 
         
@@ -64,14 +67,15 @@ public class Semantic {
         writer.close();
     }
 
-    public static void makeTree(Parse_pointer nodo) throws IOException {
+    public static void makeTree(Parse_pointer nodo, ) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter("tree.html", true));
         //writer.write(""); //write line
         //writer.newLine();   //Add new line
 
         if(nodo.value.equals("program")){
-            writer.write("<h1>"+nodo.value+"</h1>"); //write line
-            writer.newLine();   //Add new line
+            toWrite.add("<h1>"+nodo.value+"</h1>");
+            //writer.write("<h1>"+nodo.value+"</h1>"); //write line
+            //writer.newLine();   //Add new line
         }
 
         writer.close();
@@ -82,13 +86,16 @@ public class Semantic {
     public static void recorrer(Parse_pointer padre, Block padreb){       
         
         // write: <div class='row'>
+        toWrite.add("<div class='row'>");
         try {
+            
             makeTree(padre); //for each child write "<div class='col'>"+nodo.value+"</div>"
         }
         catch (IOException e) {
             e.printStackTrace();
             }
         // write: </div>
+        toWrite.add("</div>");
         
 
         Block valor = scopef(padre, padreb);
@@ -239,4 +246,5 @@ public class Semantic {
             backward_scope(bloque.padre, declaraciones, usos);
         }
     }
+
 }
