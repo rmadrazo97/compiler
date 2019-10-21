@@ -3,11 +3,13 @@ class Program
 
     int main (int hola,int adios, int talvez)
     {
-        int hello,otro,otromas;
-        for i = 0,i < 25
+        int i, hello,otro,otromas;
+        boolean boli;
+        
+	for i = 0,i < 25
         {
             if (true) {
-                boolean hello;
+                boolean hello2;
                 hello = 78;
                 break;
             }

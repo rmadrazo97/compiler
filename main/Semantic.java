@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 
 /**
  *
@@ -11,7 +14,7 @@ import java.io.File;
  */
 public class Semantic {
     public static int scope = 0;
-    
+    public static ArrayList<ArrayList<String>> toWrite = new ArrayList<>();
     
     public static void main(String[] args){
 
@@ -25,12 +28,44 @@ public class Semantic {
         System.out.println("\n\n--------------SYMBOL TABLE--------------");
         System.out.println("ID                                    Type Value      Scope");
         Block scope0 = new Block(Parser.father);
+                
+
         recorrer(Parser.father, scope0);
         System.out.println("\n\n");
         recorrer_scope(scope0);
+
+
+        // create html file for visual tree.
+        File treeHtml = new File ("tree.html");
+        if (treeHtml.exists()){
+            treeHtml.delete();
+        } 
+        try {treeHtml.createNewFile();}
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        //prepare file
+        try {prepareHtml();}
+        catch (IOException e) {
+            e.printStackTrace();
+          }
+        
+        
+
+
     }
-    
+
+    public static void prepareHtml() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("tree.html", true));
+        writer.write("<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>");
+        writer.newLine();   //Add new line
+        writer.close();
+    }
+
     public static void recorrer(Parse_pointer padre, Block padreb){       
+        
+
         Block valor = scopef(padre, padreb);
         Block siguiente;
         if(valor == null){
@@ -38,6 +73,17 @@ public class Semantic {
         }else{
             siguiente = valor;
         }
+
+        /*
+        if(padre.children.size() == 0){
+                // function that fills html file (creates the tree)
+            try {createTree(padre);}
+            catch (IOException e) {
+                e.printStackTrace();
+                }
+            // -end
+        }*/
+
   
         
         

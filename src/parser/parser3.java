@@ -188,6 +188,7 @@ public class parser3 {
     }
 
     public static boolean method_decl(ArrayList<token> tokens, parse_pointer padre){
+        
         int inicio = contador; 
         parse_pointer hijo_0 = new parse_pointer(padre, "production", "type");
         parse_pointer hijo_00 = new parse_pointer(padre, "production", "id");
@@ -289,6 +290,10 @@ public class parser3 {
         }
     }
 
+    public static boolean method_decl2(ArrayList<token) tokens, parse_pointer padre){
+
+    }
+    
     public static boolean method_decl_alt(ArrayList<token> tokens, parse_pointer padre){
         
         parse_pointer hijo_1 = new parse_pointer(padre, "production", "type");
@@ -340,14 +345,15 @@ public class parser3 {
             
             parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
             padre.children.add(hijo_1);
+            contador += 1;
 
             System.out.println("Parseado: {");
-            contador += 1;
             
+            parse_pointer hijo_2 = new parse_pointer(padre, "production", "var_decl");
             boolean continuar = true;
             while(continuar){
                 
-                parse_pointer hijo_2 = new parse_pointer(padre, "production", "var_decl");
+                
                 continuar = var_decl(tokens, hijo_2);
 
                 if (continuar){
@@ -355,13 +361,13 @@ public class parser3 {
                 } 
             }
             
+            parse_pointer hijo_3 = new parse_pointer(padre, "production", "statement");
             boolean continuar2 = true;
             while(continuar2){
                 
-                parse_pointer hijo_3 = new parse_pointer(padre, "production", "var_decl");
 
                 continuar2 = statement(tokens, hijo_3);
-                if (continuar){
+                if (continuar2){
                     padre.children.add(hijo_3);
                 }
             }
@@ -383,17 +389,29 @@ public class parser3 {
         }
     }
 
+
+    public static boolean block2(ArrayList<token> tokens, parse_pointer padre){
+        if (tokens.get(contador.value.equals("{"))){
+
+        }
+    }
+
     public static boolean var_decl(ArrayList<token> tokens, parse_pointer padre){
         
         int inicio = contador; 
         
         parse_pointer hijo_1 = new parse_pointer(padre, "production", "type");
         if(type(tokens, hijo_1)){
+
             padre.children.add(hijo_1);
+
             parse_pointer hijo_2 = new parse_pointer(padre, "production", "id");
+            
             if(id(tokens, hijo_2)){
+                
                 padre.children.add(hijo_2);
                 boolean continuar = true; 
+                
                 while(continuar){
                     if(tokens.get(contador).value.equals(",")){
                         System.out.println("Parseado: ,");
@@ -402,9 +420,13 @@ public class parser3 {
                         contador += 1;
                 
                         parse_pointer hijo_4 = new parse_pointer(padre, "production", "id");
+                        
                         continuar = id(tokens, hijo_4);
+                        
                         if(continuar){
+                            
                             padre.children.add(hijo_4);
+                            
                         }
                     }else{
                         break;
@@ -452,8 +474,11 @@ public class parser3 {
         int inicio = contador; 
         
         parse_pointer hijo_23 = new parse_pointer(padre, "production", "block");
+        
         String value = tokens.get(contador).value;
+        
         if(value.equals("if")){
+            
             System.out.println("Parseado: if");
             parse_pointer hijo_1 = new parse_pointer(padre, tokens.get(contador).type, tokens.get(contador).value);
             padre.children.add(hijo_1);
