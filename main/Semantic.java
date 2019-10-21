@@ -28,13 +28,7 @@ public class Semantic {
         System.out.println("\n\n--------------SYMBOL TABLE--------------");
         System.out.println("ID                                    Type Value      Scope");
         Block scope0 = new Block(Parser.father);
-                
-
-        recorrer(Parser.father, scope0);
-        System.out.println("\n\n");
-        recorrer_scope(scope0);
-
-
+            
         // create html file for visual tree.
         File treeHtml = new File ("tree.html");
         if (treeHtml.exists()){
@@ -50,6 +44,13 @@ public class Semantic {
         catch (IOException e) {
             e.printStackTrace();
           }
+
+        recorrer(Parser.father, scope0);
+        System.out.println("\n\n");
+        recorrer_scope(scope0);
+
+
+
         
         
 
@@ -63,7 +64,31 @@ public class Semantic {
         writer.close();
     }
 
+    public static void makeTree(Parse_pointer nodo) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("tree.html", true));
+        //writer.write(""); //write line
+        //writer.newLine();   //Add new line
+
+        if(nodo.value.equals("program")){
+            writer.write("<h1>"+nodo.value+"</h1>"); //write line
+            writer.newLine();   //Add new line
+        }
+
+        writer.close();
+    }
+
+
+
     public static void recorrer(Parse_pointer padre, Block padreb){       
+        
+        // write: <div class='row'>
+        try {
+            makeTree(padre); //for each child write "<div class='col'>"+nodo.value+"</div>"
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            }
+        // write: </div>
         
 
         Block valor = scopef(padre, padreb);
