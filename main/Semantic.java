@@ -25,15 +25,14 @@ public class Semantic {
             System.err.println("Error.");
         }
 
-        Block scope0 = new Block(Parser.father);
-        recorrer(father, scope0);
-
+        Block scope0 = new Block(Parser.father); //Guarda el scope inicial (class)
+        recorrer(father, scope0);               //father(primer nodo del srbol de parseo)
     }
 
     public static void recorrer(Parse_pointer padre, Block padreb){       
         
-        Block valor = scopef(padre, padreb);
-        Block siguiente;
+        Block valor = scopef(padre, padreb); // verifica si el padre que entro es un bloque
+        Block siguiente;                        //almacena el siguiente, en caso el padre es = null
         if(valor == null){
             siguiente = padreb;
         }else{
