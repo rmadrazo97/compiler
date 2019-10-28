@@ -17,11 +17,20 @@ public class Semantic2 {
     public static int scope = 0;
     
     public static void main(String[] args){
-        Block primer_scope = new Block(father);//Guarda el scope inicial (class)
+
+
+        try {
+            Parser parser = new Parser();
+            parser.main(new String[0]);
+        } catch (FileNotFoundException ex) {
+            System.err.println("Error.");
+        }
+
+        Block primer_scope = new Block(Parser.father);//Guarda el scope inicial (class)
         System.out.println("\n\n\n\nRESULTADOS SEMANTIC");
-        recorrer(father, primer_scope);               //father(primer nodo del srbol de parseo)
+        recorrer(Parser.father, primer_scope);               //father(primer nodo del srbol de parseo)
         recorrer_scopes(primer_scope);
-        Rule17(father,primer_scope);
+        //Rule17(Parser.father,primer_scope);
     }
 
     public static void recorrer(Parse_pointer nodo, Block siguiente_scope){
